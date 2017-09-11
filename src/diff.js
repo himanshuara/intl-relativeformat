@@ -17,13 +17,16 @@ export default function (from, to) {
     // Convert to ms timestamps.
     from = +from;
     to   = +to;
-
-    var millisecond = round(to - from),
-        second      = round(millisecond / 1000),
-        minute      = round(second / 60),
-        hour        = round(minute / 60),
-        day         = round(hour / 24),
-        week        = round(day / 7);
+    /**
+     * Fixing Issue https://github.com/yahoo/intl-relativeformat/issues/52
+     * Removed rounding off of the values
+     */
+    var millisecond = (to - from),
+        second      = (millisecond / 1000),
+        minute      = (second / 60),
+        hour        = (minute / 60),
+        day         = (hour / 24),
+        week        = (day / 7);
 
     var rawYears = daysToYears(day),
         month    = round(rawYears * 12),
