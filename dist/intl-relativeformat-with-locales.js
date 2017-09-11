@@ -1902,8 +1902,8 @@
             second      = (millisecond / 1000),
             minute      = (second / 60),
             hour        = (minute / 60),
-            day         = (hour / 24),
-            week        = (day / 7);
+            day         = $$diff$$round(hour / 24),
+            week        = $$diff$$round(day / 7);
 
         var rawYears = $$diff$$daysToYears(day),
             month    = $$diff$$round(rawYears * 12),
