@@ -1889,20 +1889,35 @@
         // 400 years have 146097 days (taking into account leap year rules)
         return days * 400 / 146097;
     }
+    function $$diff$$stripLocaleTime(ms) {
+        var date = new Date(ms);
+        date.setHours(0);
+        date.setMinutes(0);
+        date.setSeconds(0);
+        date.setMilliseconds(0);
+        return date.getTime();
+    }
+
+    function $$diff$$msToDay(ms) {
+        return ms / (1000 * 60 * 60 * 24);
+    }
 
     var $$diff$$default = function (from, to) {
         // Convert to ms timestamps.
         from = +from;
         to   = +to;
+
+        var fromDay = $$diff$$stripLocaleTime(from),
+            toDay = $$diff$$stripLocaleTime(to);
         /**
          * Fixing Issue https://github.com/yahoo/intl-relativeformat/issues/52
          * Removed rounding off of the values
          */
-        var millisecond = (to - from),
-            second      = (millisecond / 1000),
-            minute      = (second / 60),
-            hour        = (minute / 60),
-            day         = $$diff$$round(hour / 24),
+        var millisecond = $$diff$$round(to - from),
+            second      = $$diff$$round(millisecond / 1000),
+            minute      = $$diff$$round(second / 60),
+            hour        = $$diff$$round(minute / 60),
+            day         = $$diff$$round($$diff$$msToDay(toDay - fromDay)),
             week        = $$diff$$round(day / 7);
 
         var rawYears = $$diff$$daysToYears(day),
